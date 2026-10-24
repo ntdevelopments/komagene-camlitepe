@@ -6,9 +6,10 @@
 <meta name="theme-color" content="#c8102e">
 <title>Afiyet Olsun! · Bizi Değerlendir</title>
 <script>
-/* Açılış seçimi: her QR okutmada sıradaki tasarım (troll → oyun → hediye). ?mod=troll|oyun|hediye ile zorla. */
-(function(){var L=["troll","oyun","hediye"],p=new URLSearchParams(location.search),z=p.get("mod"),m;
-if(L.indexOf(z)>=0)m=z;else{var s=null;try{s=localStorage.getItem("sonMod")}catch(e){}var i=L.indexOf(s);m=i<0?L[Math.floor(Math.random()*L.length)]:L[(i+1)%L.length];try{localStorage.setItem("sonMod",m)}catch(e){}}
+/* Açılış seçimi: her QR okutmada rastgele. TROLL_ORANI = troll gelme ihtimali (0.4 = %40, gerisi hediye).
+   ?mod=troll|hediye ile zorla. */
+(function(){var TROLL_ORANI=0.4,L=["troll","hediye"],p=new URLSearchParams(location.search),z=p.get("mod"),m;
+if(L.indexOf(z)>=0)m=z;else m=Math.random()<TROLL_ORANI?"troll":"hediye";
 if(m==="hediye"){p.delete("mod");var q=p.toString();location.replace("hediye.html"+(q?"?"+q:""));}
 window.ACILIS_MODU=m;})();
 </script>
@@ -280,57 +281,6 @@ body{
 /* ---------- Şube satırı ---------- */
 .sube .semt{display:inline-block;margin-top:5px;font-size:11.5px;letter-spacing:1.5px;background:rgba(255,255,255,.14);padding:3px 10px;border-radius:99px}
 
-/* ---------- Oyun: aç amcayı besle ---------- */
-.oyun{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;
-  padding:22px 16px 0;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;
-  transition:opacity .6s ease, transform .7s cubic-bezier(.2,.9,.3,1)}
-.oyun[hidden]{display:none}
-.oyunda .sayfa{visibility:hidden}
-.oyun.bitti{opacity:0;transform:scale(1.08);pointer-events:none}
-.oyun-marka{font:800 26px "Baloo 2",sans-serif;color:#fff;text-shadow:0 3px 0 var(--kirmizi-koyu)}
-.oyun-alt{font-weight:800;font-size:11.5px;letter-spacing:2px;color:#ffe3e7;text-transform:uppercase;margin-top:-2px}
-.oyun-baslik{margin-top:14px;font:800 30px/1.05 "Baloo 2",sans-serif;color:#fff;text-align:center;text-shadow:0 3px 0 rgba(0,0,0,.18)}
-.oyun-yazi{margin-top:6px;font-weight:800;font-size:15px;color:#ffe3e7;text-align:center;min-height:21px}
-.oyun-yazi span{display:inline-block;animation:adimGir .3s both}
-
-.kafa-alan{position:relative;margin-top:6px;width:min(250px,64vw)}
-.kafa{width:100%;display:block;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28))}
-.kafa-alan.titre .kafa{animation:titre .4s}
-.balon{position:absolute;right:-16px;top:8px;background:#fff;color:var(--kirmizi-koyu);
-  font:800 14px "Baloo 2",sans-serif;padding:6px 12px;border-radius:16px 16px 16px 4px;
-  box-shadow:0 6px 14px rgba(0,0,0,.2);animation:balon 1.6s ease-in-out infinite;transform-origin:left bottom}
-@keyframes balon{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(4deg) scale(1.06)}}
-#agizG{transform-box:fill-box;transform-origin:center;transition:transform .18s ease}
-.ciğne #agizG{animation:cigne .22s ease-in-out 5 alternate}
-@keyframes cigne{from{transform:scaleY(.15) scaleX(1.05)}to{transform:scaleY(.65)}}
-.salya{animation:salya 1.8s ease-in infinite;transform-box:fill-box;transform-origin:top}
-@keyframes salya{0%{transform:scaleY(.3);opacity:0}30%{opacity:1}80%{transform:scaleY(1.4) translateY(4px);opacity:1}100%{transform:scaleY(1.4) translateY(14px);opacity:0}}
-#mutluGoz{display:none}
-.mutlu #mutluGoz{display:inline}
-.mutlu #gozler,.mutlu .salya{display:none}
-#kas1,#kas2{transition:transform .3s;transform-box:fill-box;transform-origin:center}
-.mutlu #kas1{transform:translateY(-5px) rotate(-8deg)}
-.mutlu #kas2{transform:translateY(-5px) rotate(8deg)}
-
-.mide{display:flex;gap:10px;margin-top:8px;align-items:center;font-weight:800;color:#fff;font-size:13px}
-.mide i{font-style:normal;font-size:24px;filter:grayscale(1) opacity(.45);transition:filter .3s, transform .3s}
-.mide i.dolu{filter:none;transform:scale(1.2)}
-
-.durum-yer{position:relative;flex:1;width:100%;min-height:150px}
-.durum{position:absolute;left:50%;bottom:16vh;width:96px;margin-left:-48px;cursor:grab;touch-action:none;z-index:2;
-  filter:drop-shadow(0 12px 12px rgba(0,0,0,.3));will-change:transform}
-.durum.donus{transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
-.durum.yeniyor{transition:transform .28s ease-in, opacity .28s ease-in}
-.durum svg{width:100%;display:block;animation:durumSalla 1.4s ease-in-out infinite;transform-origin:bottom center}
-.durum.tutuldu svg{animation:none;transform:scale(1.08) rotate(-8deg)}
-@keyframes durumSalla{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
-.el-ipucu{position:absolute;left:50%;bottom:calc(16vh - 26px);font-size:44px;margin-left:6px;pointer-events:none;z-index:3;
-  animation:elIpucu 1.8s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
-@keyframes elIpucu{0%{transform:translate(0,0);opacity:0}15%{opacity:1}70%{transform:translate(-10px,-120px);opacity:1}100%{transform:translate(-10px,-140px);opacity:0}}
-.oyun.basladi .el-ipucu{display:none}
-.besle-btn{position:absolute;right:14px;bottom:calc(9vh + 12px);background:rgba(0,0,0,.18);color:#fff;border:0;border-radius:99px;
-  padding:7px 12px;font:800 12px "Nunito",sans-serif;cursor:pointer;z-index:4}
-
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .malzeme{display:none}
@@ -342,62 +292,6 @@ body{
 <div class="sahne" id="sahne" aria-hidden="true"><canvas id="kar"></canvas></div>
 <canvas id="konfeti" aria-hidden="true"></canvas>
 
-
-<!-- Oyun modu: aç amcayı besle (rastgele açılır) -->
-<section class="oyun" id="oyun" hidden aria-label="Mini oyun: amcayı besle">
-  <button class="besle-btn" id="besleBtn" type="button">Hemen besle →</button>
-  <div class="oyun-marka">🌿 <span id="oyunMarka">Komagene</span></div>
-  <div class="oyun-alt" id="oyunAlt"></div>
-  <h1 class="oyun-baslik" id="oyunBaslik">Amca çok acıktı! 😩</h1>
-  <p class="oyun-yazi" id="oyunYazi"><span>Dürümü tut, ağzına götür 👇</span></p>
-
-  <div class="kafa-alan" id="kafaAlan">
-    <svg class="kafa" viewBox="0 0 220 230" aria-hidden="true">
-      <path d="M30 230 Q110 168 190 230Z" fill="#c8102e"/>
-      <path d="M92 196 L110 214 L128 196" fill="#fff"/>
-      <circle cx="38" cy="118" r="15" fill="#efb184"/><circle cx="182" cy="118" r="15" fill="#efb184"/>
-      <ellipse cx="110" cy="114" rx="72" ry="82" fill="#f6c49a"/>
-      <path d="M40 100 Q40 28 110 26 Q180 28 180 100 Q170 62 140 58 Q120 70 98 58 Q60 58 40 100Z" fill="#3b2418"/>
-      <g id="kas1"><path d="M66 80 Q80 70 96 80" fill="none" stroke="#3b2418" stroke-width="7" stroke-linecap="round" transform="rotate(10 81 76)"/></g>
-      <g id="kas2"><path d="M124 80 Q140 70 154 80" fill="none" stroke="#3b2418" stroke-width="7" stroke-linecap="round" transform="rotate(-10 139 76)"/></g>
-      <g id="gozler">
-        <ellipse cx="82" cy="102" rx="15" ry="17" fill="#fff"/><ellipse cx="138" cy="102" rx="15" ry="17" fill="#fff"/>
-        <circle id="p1" cx="82" cy="104" r="7.5" fill="#2b1a14"/><circle id="p2" cx="138" cy="104" r="7.5" fill="#2b1a14"/>
-      </g>
-      <g id="mutluGoz" fill="none" stroke="#2b1a14" stroke-width="6" stroke-linecap="round">
-        <path d="M68 106 Q82 88 96 106"/><path d="M124 106 Q138 88 152 106"/>
-      </g>
-      <circle cx="62" cy="138" r="11" fill="#ff8a9a" opacity=".45"/><circle cx="158" cy="138" r="11" fill="#ff8a9a" opacity=".45"/>
-      <ellipse cx="110" cy="128" rx="11" ry="9" fill="#e9a275"/>
-      <g id="agizG">
-        <ellipse id="agizHedef" cx="110" cy="168" rx="26" ry="20" fill="#6b0f1a"/>
-        <rect x="96" y="149" width="28" height="7" rx="3" fill="#fff"/>
-        <ellipse cx="110" cy="180" rx="14" ry="7" fill="#ff7a8a"/>
-      </g>
-      <path d="M66 150 Q88 134 110 145 Q132 134 154 150 Q134 154 110 153 Q86 154 66 150Z" fill="#3b2418"/>
-      <path class="salya" d="M132 178 q-4 10 0 14 q4 -4 0 -14Z" fill="#9fd8ff"/>
-    </svg>
-    <div class="balon" id="balon">Guuurr... 🫃</div>
-  </div>
-
-  <div class="mide" aria-live="polite"><span>Lokma:</span><i>🌯</i><i>🌯</i><i>🌯</i></div>
-
-  <div class="durum-yer">
-    <div class="durum" id="durum" role="button" aria-label="Çiğ köfte dürümü: sürükle">
-      <svg viewBox="0 0 100 130" aria-hidden="true">
-        <g transform="rotate(-12 50 65)">
-          <path d="M26 30 Q50 4 74 30 Z" fill="#7cc34f"/>
-          <path d="M30 26 Q50 12 70 26" fill="none" stroke="#a83a22" stroke-width="9" stroke-linecap="round"/>
-          <rect x="24" y="22" width="52" height="96" rx="22" fill="#f3d9a4" stroke="#d9b277" stroke-width="3"/>
-          <path d="M24 60 L76 50 L76 112 Q50 126 24 112Z" fill="#c8102e"/>
-          <text x="50" y="92" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="11" fill="#fff">ÇİĞ KÖFTE</text>
-          <circle cx="40" cy="40" r="3" fill="#e2c38a"/><circle cx="58" cy="44" r="2.5" fill="#e2c38a"/>
-        </g>
-      </svg>
-    </div>
-    <span class="el-ipucu" aria-hidden="true">👆</span>
-  </div>
-</section>
 
 <main class="sayfa">
   <div class="marka"><span class="yaprak">🌿</span><span id="markaAd">Komagene</span></div>
@@ -515,7 +409,7 @@ const AYARLAR = {
   // (uygulamada şubeni aç → Paylaş → Linki kopyala). Boş bırakırsan buton görünmez.
   platformlar: [
     { ad: "Yemeksepeti", harf: "Y", renk: "#fa0050", url: "https://www.yemeksepeti.com/" },
-    { ad: "Trendyol Go · Uber", harf: "T", renk: "#f27a1a", url: "https://www.trendyol.com/" },
+    { ad: "Trendyol Go · Uber", harf: "T", renk: "#f27a1a", url: "https://tgoyemek.com/" },
     { ad: "Migros Yemek", harf: "M", renk: "#e85d04", url: "https://www.migros.com.tr/" }
   ]
 };
@@ -523,6 +417,95 @@ const AYARLAR = {
 
 const $ = s => document.querySelector(s);
 const azHareket = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ===== Troll ses efektleri (dosya yok, tarayıcıda üretiliyor) ===== */
+const Ses = (() => {
+  let ctx = null, ana = null, gurBuf = null;
+  let kapali = false; try { kapali = localStorage.getItem("kmgSes") === "0"; } catch (e) {}
+  const N = n => 440 * Math.pow(2, (n - 69) / 12);
+  function hazir() {
+    if (kapali) return null;
+    try {
+      if (!ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+        ctx = new AC();
+        const sik = ctx.createDynamicsCompressor(); sik.connect(ctx.destination);
+        ana = ctx.createGain(); ana.gain.value = .5; ana.connect(sik);
+        gurBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+        const d = gurBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+      return ctx.state === "running" || ctx.state === "suspended" ? ctx : null;
+    } catch (e) { return null; }
+  }
+  // tek nota: frekans (veya [başlangıç, bitiş]), süre, dalga tipi, filtre, vibrato
+  function ton(f, t0, sure, { tip = "sine", ses = .25, atak = .005, filtre = 0, vib = 0, vibHiz = 6 } = {}) {
+    const c = hazir(); if (!c) return;
+    const t = c.currentTime + t0, o = c.createOscillator(), g = c.createGain();
+    o.type = tip;
+    if (Array.isArray(f)) { o.frequency.setValueAtTime(f[0], t); o.frequency.exponentialRampToValueAtTime(f[1], t + sure); }
+    else o.frequency.setValueAtTime(f, t);
+    if (vib) { const l = c.createOscillator(), lg = c.createGain(); l.frequency.value = vibHiz; lg.gain.value = vib; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + sure + .05); }
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ses, t + atak); g.gain.setValueAtTime(ses, t + Math.max(atak, sure * .6)); g.gain.exponentialRampToValueAtTime(.0001, t + sure);
+    let son = o;
+    if (filtre) { const fl = c.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = filtre; o.connect(fl); son = fl; }
+    son.connect(g); g.connect(ana); o.start(t); o.stop(t + sure + .05);
+  }
+  function gurultu(t0, sure, { ses = .2, f1 = 800, f2 = 3000, q = 1, atak = .3 } = {}) {
+    const c = hazir(); if (!c) return;
+    const t = c.currentTime + t0, s = c.createBufferSource(), fl = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = gurBuf; fl.type = "bandpass"; fl.Q.value = q;
+    fl.frequency.setValueAtTime(f1, t); fl.frequency.exponentialRampToValueAtTime(f2, t + sure);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ses, t + sure * atak); g.gain.exponentialRampToValueAtTime(.0001, t + sure);
+    s.connect(fl); fl.connect(g); g.connect(ana); s.start(t, Math.random()); s.stop(t + sure + .05);
+  }
+  const efekt = {
+    boing(t0 = 0) { ton([420, 140], t0, .55, { tip: "triangle", ses: .3, vib: 60, vibHiz: 22 }); },
+    duduk(t0 = 0) { ton([500, 1700], t0, .32, { ses: .22, vib: 12, vibHiz: 9 }); },
+    dudukIn(t0 = 0, sure = .7) { ton([1500, 220], t0, sure, { ses: .22, vib: 14, vibHiz: 8 }); },
+    zip(t0 = 0) { gurultu(t0, .2, { ses: .25, f1: 900, f2: 7000, q: 1.5, atak: .2 }); ton([700, 2200], t0, .15, { tip: "triangle", ses: .1 }); },
+    vahVah(t0 = 0) { // hüzünlü trombon
+      [[62, .36], [61, .36], [60, .36]].forEach(([n, s], i) => ton(N(n - 12), t0 + i * .4, s, { tip: "sawtooth", ses: .14, atak: .03, filtre: 900 }));
+      ton(N(59 - 12), t0 + 1.2, 1.1, { tip: "sawtooth", ses: .14, atak: .03, filtre: 900, vib: 4, vibHiz: 6 });
+    },
+    nanana(t0 = 0) { // na-na-na-na-naa
+      [[79, .16], [76, .16], [81, .16], [79, .16], [76, .32]].reduce((d, [n, s]) => { ton(N(n), t0 + d, s, { tip: "square", ses: .07, filtre: 2200 }); return d + s + .03; }, 0);
+    },
+    vik(t0 = 0) { ton([1100, 1700], t0, .07, { tip: "square", ses: .08, filtre: 2500 }); ton([1600, 1000], t0 + .07, .09, { tip: "square", ses: .08, filtre: 2500 }); },
+    bzzt(t0 = 0) { ton(110, t0, .4, { tip: "square", ses: .1, filtre: 800 }); ton(117, t0, .4, { tip: "square", ses: .1, filtre: 800 }); },
+    pff(t0 = 0) { efekt.dudukIn(t0, .9); gurultu(t0 + .6, .5, { ses: .15, f1: 600, f2: 200, q: .7, atak: .1 }); },
+    pop(t0 = 0) { ton([900, 260], t0, .08, { ses: .12 }); },
+    tik(t0 = 0) { ton(1500, t0, .04, { tip: "triangle", ses: .1 }); },
+    hus(t0 = 0) { gurultu(t0, .45, { ses: .12, f1: 400, f2: 3000, q: .6, atak: .5 }); },
+    yildiz(adet) { for (let i = 0; i < adet; i++) ton(N(72 + [0, 4, 7, 12, 16][i]), i * .07, .18, { tip: "triangle", ses: .16 }); },
+    tada(t0 = 0) {
+      [[67, 0], [72, .12]].forEach(([n, d]) => ton(N(n), t0 + d, .14, { tip: "triangle", ses: .16 }));
+      [60, 64, 67, 72, 76].forEach(n => ton(N(n), t0 + .26, 1.3, { tip: "triangle", ses: .08, atak: .02 }));
+      ton(N(96), t0 + .26, .9, { ses: .05 });
+    },
+    duduk2(t0 = 0) { // parti düdüğü
+      ton([380, 560], t0, .55, { tip: "sawtooth", ses: .1, filtre: 1800, vib: 30, vibHiz: 28 });
+      gurultu(t0, .5, { ses: .05, f1: 2000, f2: 3000, q: 2 });
+    },
+    alkis(t0 = 0, sure = 1.4) { for (let i = 0; i < 26; i++) gurultu(t0 + Math.random() * sure, .06, { ses: .12 + Math.random() * .1, f1: 1200 + Math.random() * 1500, f2: 900, q: 1.2, atak: .05 }); },
+    tamam(t0 = 0) { ton(N(84), t0, .5, { ses: .14 }); ton(N(91), t0 + .1, .7, { ses: .12 }); }
+  };
+  return {
+    ...efekt, hazir,
+    get kapali() { return kapali; },
+    ayarla(k) { kapali = k; try { localStorage.setItem("kmgSes", k ? "0" : "1"); } catch (e) {} if (k && ctx) ctx.suspend(); if (!k) hazir(); }
+  };
+})();
+// Tarayıcılar sesi ilk dokunuştan sonra açar
+addEventListener("pointerdown", () => Ses.hazir(), { once: true, capture: true });
+(() => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.style.cssText = "position:fixed;top:12px;right:12px;z-index:50;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.22);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)";
+  const yaz = () => { b.textContent = Ses.kapali ? "🔇" : "🔊"; b.setAttribute("aria-label", Ses.kapali ? "Sesi aç" : "Sesi kapat"); };
+  b.addEventListener("click", () => { Ses.ayarla(!Ses.kapali); yaz(); if (!Ses.kapali) Ses.pop(); });
+  yaz(); document.body.appendChild(b);
+})();
 
 $("#markaAd").textContent = AYARLAR.marka;
 $("#subeAd").textContent = AYARLAR.sube;
@@ -578,6 +561,7 @@ function yildizKacir(b, e) {
   b.style.translate = `${dx}px ${dy}px`;
   b.style.rotate = `${(Math.random() - .5) * 70}deg`;
   if (navigator.vibrate) navigator.vibrate(15);
+  if (kilitli) Ses.bzzt(); else [Ses.vik, Ses.boing, Ses.zip][yildizKacis % 3]();
   if (kilitli) {
     $("#puanYazi").innerHTML = `<span>${kilitYazilari[kilitSayac++ % kilitYazilari.length]}</span>`;
     clearTimeout(b._geri); b._geri = setTimeout(yildizlariToparla, 1300);
@@ -605,6 +589,7 @@ function puanVer(p) {
   });
   $("#puanYazi").innerHTML = `<span>${puanYazilari[p]}</span>`;
   if (navigator.vibrate) navigator.vibrate(12);
+  Ses.yildiz(p); if (p === 5) Ses.tada(.35);
 
   const iyi = p >= 4;
   if ($("#etiketAlan").style.display === "none" || eskiIyi !== iyi) {
@@ -626,6 +611,7 @@ function etiketleriCiz(liste) {
     b.textContent = t;
     b.addEventListener("click", () => {
       secili.has(t) ? secili.delete(t) : secili.add(t);
+      Ses.tik();
       b.classList.toggle("secili");
       b.setAttribute("aria-pressed", secili.has(t));
     });
@@ -669,6 +655,7 @@ function adimaGit(id) {
 }
 
 $("#devamBtn").addEventListener("click", () => {
+  Ses.hus();
   if (puan >= 4) {
     $("#hazirYorum").value = yorumUret();
     adimaGit("#adim2");
@@ -702,6 +689,7 @@ tumPlatformlar.forEach((p, i) => {
   else { a.style.background = p.renk; a.style.color = "#fff"; a.innerHTML = `<span class="harf">${p.harf}</span>${p.ad}`; }
   a.addEventListener("click", () => {
     yorumuKopyala();
+    Ses.tamam();
     tost(p.ipucu || `✅ Kopyalandı! ${p.ad} → Siparişlerim → Değerlendir → Yapıştır`);
     setTimeout(() => bitir(true), 1500);
   });
@@ -714,7 +702,7 @@ $("#yineGoogle").addEventListener("click", () => window.open(AYARLAR.googleYorum
 /* WhatsApp şikayet */
 $("#whatsappBtn").addEventListener("click", () => {
   const metin = $("#sikayet").value.trim();
-  if (!metin) { tost("Lütfen kısaca ne olduğunu yaz 🙏"); $("#sikayet").focus(); return; }
+  if (!metin) { Ses.bzzt(); tost("Lütfen kısaca ne olduğunu yaz 🙏"); $("#sikayet").focus(); return; }
   const mesaj = `📋 ${AYARLAR.marka} ${AYARLAR.sube} – Müşteri Geri Bildirimi\n⭐ Puan: ${puan}/5\n\n${metin}`;
   window.open(`https://wa.me/${AYARLAR.whatsapp}?text=${encodeURIComponent(mesaj)}`, "_blank", "noopener");
   $("#tesekkurYazi").textContent = "Mesajın bize ulaştı. En kısa sürede dönüş yapacağız, telafi etmek isteriz!";
@@ -724,7 +712,8 @@ $("#whatsappBtn").addEventListener("click", () => {
 function bitir(kutla) {
 
   adimaGit("#adim4");
-  if (kutla) buyukKonfeti();
+  if (kutla) { buyukKonfeti(); Ses.duduk2(); Ses.alkis(.2); Ses.tada(.3); }
+  else Ses.tamam();
 }
 
 /* Tost */
@@ -815,6 +804,7 @@ function kalpYol(c, s) {
 document.addEventListener("pointerdown", e => {
   if (e.target.closest(".kart, a, button, textarea")) return;
   patlat(e.clientX, e.clientY, 14, 6, true);
+  Ses.pop();
 });
 
 /* ===== Troll açılış: kaçan "Hayır" butonu ===== */
@@ -833,6 +823,7 @@ document.addEventListener("pointerdown", e => {
       hayir.classList.add("gitti"); setTimeout(() => hayir.style.display = "none", 320);
       soru.textContent = sorular.at(-1); soruAlt.textContent = altlar.at(-1);
       evet.style.setProperty("--b", 1.25); agiz.setAttribute("d", normalAgiz);
+      if (!hayir._pes) { hayir._pes = true; Ses.pff(); }
       return;
     }
     const r = hayir.getBoundingClientRect(), m = 16;
@@ -844,6 +835,8 @@ document.addEventListener("pointerdown", e => {
     soru.textContent = sorular[kac]; soruAlt.textContent = altlar[kac];
     soru.classList.remove("titre"); void soru.offsetWidth; soru.classList.add("titre");
     agiz.setAttribute("d", uzgunAgiz);
+    // her kaçışta farklı troll sesi (sorular dizisiyle aynı sırada)
+    [() => Ses.boing(), () => Ses.duduk(), () => Ses.zip(), () => Ses.vahVah(), () => { Ses.zip(); Ses.nanana(.15); }, () => { Ses.boing(); Ses.dudukIn(.25, .5); }][kac]?.();
     kac++;
     evet.style.setProperty("--b", Math.min(1 + kac * .09, 1.5));
     if (navigator.vibrate) navigator.vibrate(15);
@@ -865,149 +858,13 @@ document.addEventListener("pointerdown", e => {
     patlat(r.left + r.width / 2, r.top + r.height / 2, 70, 13, true);
     setTimeout(() => patlat(innerWidth / 2, innerHeight * .4, 90, 15, true), 200);
     if (navigator.vibrate) navigator.vibrate([20, 40, 20]);
+    Ses.duduk2(); Ses.alkis(.15, 1.2); Ses.tada(.25);
     setTimeout(() => { agiz.setAttribute("d", normalAgiz); adimaGit("#adim1"); }, 1400);
   });
 })();
 
-/* ===== Hangi açılış? Her QR okutmada değişir =====
-   ?mod=oyun veya ?mod=troll ile zorla seçilebilir. */
-const acilisModu = window.ACILIS_MODU;
-
-if (acilisModu === "oyun") {
-  /* ===== Oyun: aç amcayı besle ===== */
-  const oyun = $("#oyun"), durum = $("#durum"), kafaAlan = $("#kafaAlan"), agizG = $("#agizG");
-  const p1 = $("#p1"), p2 = $("#p2"), balon = $("#balon");
-  const LOKMA = 3;
-  let lokma = 0, surukle = null, x = 0, y = 0, kilit = false;
-
-  oyun.hidden = false;
-  document.body.classList.add("oyunda");
-  $("#oyunMarka").textContent = AYARLAR.marka;
-  $("#oyunAlt").textContent = `${AYARLAR.lakap} · ${AYARLAR.semt}`;
-  // Oyun bitince doğrudan puan ekranı görünsün
-  document.querySelectorAll(".adim").forEach(a => a.classList.remove("aktif"));
-  $("#adim1").classList.add("aktif");
-
-  const yazi = t => $("#oyunYazi").innerHTML = `<span>${t}</span>`;
-  const balonlar = ["Guuurr... 🫃", "Açlıktan bayılıcam 😵", "Çiğ köfte kokusu mu o? 👃", "Ver şunu! 🤤"];
-  let bi = 0;
-  const balonZaman = setInterval(() => { if (!kilit) balon.textContent = balonlar[++bi % balonlar.length]; }, 2200);
-
-  function agizAc(k) { agizG.style.transform = `scale(${1 + k * .25}, ${.45 + k * .9})`; }
-  agizAc(0);
-
-  function gozTakip() {
-    const d = durum.getBoundingClientRect(), dx0 = d.left + d.width / 2, dy0 = d.top + d.height / 3;
-    [p1, p2].forEach(p => {
-      const r = p.getBoundingClientRect(), a = Math.atan2(dy0 - (r.top + r.height / 2), dx0 - (r.left + r.width / 2));
-      p.setAttribute("transform", `translate(${Math.cos(a) * 5} ${Math.sin(a) * 6})`);
-    });
-  }
-
-  function agizMerkezi() {
-    const r = $("#agizHedef").getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-  }
-  function durumMerkezi() {
-    const d = durum.getBoundingClientRect();
-    return { x: d.left + d.width / 2, y: d.top + d.height * .25 }; // dürümün ucu
-  }
-
-  function yerlestir() { durum.style.transform = `translate(${x}px, ${y}px) scale(${1 - lokma * .16})`; }
-
-  durum.addEventListener("pointerdown", e => {
-    if (kilit) return;
-    oyun.classList.add("basladi");
-    durum.classList.remove("donus");
-    durum.classList.add("tutuldu");
-    durum.setPointerCapture(e.pointerId);
-    surukle = { sx: e.clientX - x, sy: e.clientY - y };
-  });
-  durum.addEventListener("pointermove", e => {
-    if (!surukle) return;
-    x = e.clientX - surukle.sx; y = e.clientY - surukle.sy;
-    yerlestir(); gozTakip();
-    const a = agizMerkezi(), d = durumMerkezi();
-    const mesafe = Math.hypot(a.x - d.x, a.y - d.y);
-    const yakin = Math.max(0, Math.min(1, 1 - (mesafe - 40) / 260));
-    agizAc(yakin);
-    if (yakin > .8) yazi("Aaaaa! 😮");
-  });
-  function birak() {
-    if (!surukle) return;
-    surukle = null;
-    durum.classList.remove("tutuldu");
-    const a = agizMerkezi(), d = durumMerkezi();
-    if (Math.hypot(a.x - d.x, a.y - d.y) < 75) ye();
-    else { // geri dön
-      durum.classList.add("donus"); x = 0; y = 0; yerlestir(); agizAc(0);
-      yazi("Az daha! Ağzına götür 👄");
-      kafaAlan.classList.remove("titre"); void kafaAlan.offsetWidth; kafaAlan.classList.add("titre");
-      setTimeout(gozTakip, 460);
-    }
-  }
-  durum.addEventListener("pointerup", birak);
-  durum.addEventListener("pointercancel", birak);
-
-  function ye() {
-    kilit = true;
-    const a = agizMerkezi(), d = durumMerkezi();
-    x += a.x - d.x; y += a.y - d.y;
-    durum.classList.add("yeniyor");
-    durum.style.transform = `translate(${x}px, ${y}px) scale(.2)`;
-    durum.style.opacity = "0";
-    agizAc(.2);
-    kafaAlan.classList.add("ciğne");
-    patlat(a.x, a.y, 16, 5);
-    if (navigator.vibrate) navigator.vibrate([15, 30, 15]);
-    lokma++;
-    document.querySelectorAll(".mide i").forEach((m, i) => m.classList.toggle("dolu", i < lokma));
-    const sozler = ["Hamm! Nom nom 😋", "Mmmh, harika! 🤤", "Ooohh, bayıldım! 😍"];
-    yazi(sozler[lokma - 1] || sozler[2]);
-    balon.textContent = lokma < LOKMA ? "Bir lokma daha! 🙏" : "Doydum! ❤️";
-
-    setTimeout(() => {
-      kafaAlan.classList.remove("ciğne");
-      if (lokma >= LOKMA) return bitir();
-      // yeni (daha kısa) dürüm aşağıdan gelsin
-      durum.classList.remove("yeniyor");
-      x = 0; y = 60; yerlestir();
-      requestAnimationFrame(() => { durum.classList.add("donus"); durum.style.opacity = "1"; y = 0; yerlestir(); agizAc(0); });
-      kilit = false;
-      setTimeout(gozTakip, 460);
-    }, 1150);
-  }
-
-  function bitir() {
-    clearInterval(balonZaman);
-    kafaAlan.classList.add("mutlu");
-    agizAc(.6);
-    $("#oyunBaslik").textContent = `${AYARLAR.lakap}! 😍`;
-    yazi("Eline sağlık! Şimdi sıra sende, bizi puanla ⭐");
-    const k = kafaAlan.getBoundingClientRect();
-    patlat(k.left + k.width / 2, k.top + k.height / 2, 90, 14, true);
-    setTimeout(() => patlat(innerWidth / 2, innerHeight * .4, 80, 15, true), 250);
-    setTimeout(() => {
-      document.body.classList.remove("oyunda");
-      oyun.classList.add("bitti");
-      scrollTo(0, 0);
-      setTimeout(() => oyun.remove(), 700);
-    }, 2000);
-  }
-
-  // Sürükleyemeyenler için: düğmeye basınca amca kendisi yer
-  $("#besleBtn").addEventListener("click", () => {
-    if (kilit) return;
-    const hepsi = () => { if (lokma < LOKMA && !kilit) ye(); if (lokma < LOKMA) setTimeout(hepsi, 1300); };
-    hepsi();
-  });
-
-  addEventListener("resize", gozTakip);
-  setTimeout(gozTakip, 100);
-} else {
-  $("#oyun").remove();
-}
 
 </script>
+<script src="takip.js" defer></script>
 </body>
 </html>

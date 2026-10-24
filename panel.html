@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#1c1412">
+<title>Komagene QR Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6efe6;--kart:#fff;--yazi:#2b1a14;--soluk:#7a5e52;--cizgi:#ecdfd3;
+  --kirmizi:#c8102e;--mavi:#2563eb;--pembe:#e8508a;--gri:#b9aaa0;--yesil:#2e9e3f;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#140e0c;--kart:#211816;--yazi:#f5ede6;--soluk:#b4a197;--cizgi:#3a2c27;--gri:#6d5c54}
+}
+:root[data-theme="dark"]{--bg:#140e0c;--kart:#211816;--yazi:#f5ede6;--soluk:#b4a197;--cizgi:#3a2c27;--gri:#6d5c54}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--yazi);font-family:"Nunito",system-ui,sans-serif;min-height:100vh;padding:20px 16px 40px}
+.kap{max-width:720px;margin:0 auto}
+h1{font-family:"Baloo 2",sans-serif;font-size:28px;line-height:1.1}
+h1 b{color:var(--kirmizi)}
+.ust{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.ust small{display:block;color:var(--soluk);font-size:13px;font-weight:600}
+.btn{border:0;border-radius:12px;padding:10px 14px;font:800 14px "Nunito",sans-serif;cursor:pointer;background:var(--kirmizi);color:#fff}
+.btn.ikincil{background:transparent;color:var(--yazi);border:1.5px solid var(--cizgi)}
+.izgara{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+@media (min-width:640px){.izgara{grid-template-columns:repeat(4,1fr)}}
+.kart{background:var(--kart);border:1px solid var(--cizgi);border-radius:18px;padding:16px}
+.sayi{font-family:"Baloo 2",sans-serif;font-size:34px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.etiket{font-size:13px;color:var(--soluk);font-weight:700;margin-top:6px}
+.kart h2{font-size:15px;font-weight:800;margin-bottom:12px}
+.bolum{margin-bottom:12px}
+.iki{display:grid;gap:12px;margin-bottom:12px}
+@media (min-width:640px){.iki{grid-template-columns:1fr 1fr}}
+.serit{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--cizgi);margin-bottom:12px}
+.serit i{display:block;height:100%}
+.liste{list-style:none}
+.liste li{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--cizgi);font-size:14px;font-weight:700}
+.liste li:first-child{border-top:0}
+.liste .n{margin-left:auto;font-variant-numeric:tabular-nums}
+.liste .y{color:var(--soluk);font-weight:600;font-size:12px;width:44px;text-align:right}
+.nokta{width:10px;height:10px;border-radius:50%;flex:none}
+.grafik{display:flex;align-items:flex-end;gap:6px;height:140px;padding-top:18px}
+.cubuk{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.cubuk i{display:block;width:100%;max-width:38px;background:var(--kirmizi);border-radius:6px 6px 2px 2px;min-height:2px}
+.cubuk i.t{background:var(--yesil)}
+.cubuk b{font-size:11px;font-variant-numeric:tabular-nums}
+.cubuk span{font-size:11px;color:var(--soluk);font-weight:700}
+.cubuklar{display:flex;gap:2px;width:100%;max-width:38px;align-items:flex-end;height:100%}
+.cubuklar i{flex:1}
+.leg{display:flex;gap:14px;font-size:12px;color:var(--soluk);font-weight:700;margin-top:8px}
+.leg span{display:flex;align-items:center;gap:6px}
+.not{font-size:12px;color:var(--soluk);margin-top:16px;line-height:1.5}
+.hata{background:#fde8ea;color:#8e0b20;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;margin-bottom:12px}
+/* giriş */
+.giris{max-width:340px;margin:12vh auto 0;text-align:center}
+.giris h1{margin-bottom:6px}
+.giris p{color:var(--soluk);font-size:14px;margin-bottom:18px}
+.giris input{width:100%;padding:14px;border-radius:14px;border:1.5px solid var(--cizgi);background:var(--kart);color:var(--yazi);font:700 16px "Nunito",sans-serif;margin-bottom:10px}
+.giris input:focus{outline:2px solid var(--kirmizi);outline-offset:1px}
+.giris .btn{width:100%;padding:14px;font-size:16px}
+.giris .yanlis{color:var(--kirmizi);font-size:13px;font-weight:800;min-height:20px;margin-top:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<form class="giris" id="giris" autocomplete="off">
+  <h1>🔒 <b>Panel</b></h1>
+  <p>Bu sayfa sadece işletme sahibi içindir.</p>
+  <input type="password" id="sifre" placeholder="Şifre" aria-label="Şifre" autofocus>
+  <button class="btn" type="submit">Giriş</button>
+  <div class="yanlis" id="yanlis"></div>
+</form>
+
+<main class="kap" id="panel" hidden>
+  <div class="ust">
+    <div><h1>Komagene <b>QR</b></h1><small id="guncel">Yükleniyor…</small></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn ikincil" id="saymaBtn" type="button">Bu cihazı sayma</button>
+      <button class="btn" id="yenile" type="button">Yenile</button>
+    </div>
+  </div>
+  <div class="hata" id="hata" hidden></div>
+
+  <div class="izgara">
+    <div class="kart"><div class="sayi" id="vOkutma">–</div><div class="etiket">QR okutma (toplam)</div></div>
+    <div class="kart"><div class="sayi" id="vBugun">–</div><div class="etiket">Bugün okutma</div></div>
+    <div class="kart"><div class="sayi" id="vTekil">–</div><div class="etiket">Tekil kişi*</div></div>
+    <div class="kart"><div class="sayi" id="vTiklayan">–</div><div class="etiket">Tıklayan kişi</div></div>
+  </div>
+
+  <div class="iki">
+    <div class="kart">
+      <h2>Cinsiyet</h2>
+      <div class="serit" id="cinsSerit"></div>
+      <ul class="liste" id="cinsListe"></ul>
+    </div>
+    <div class="kart">
+      <h2>Nereye tıkladılar? <span style="color:var(--soluk);font-weight:700">(<span id="vTiklama">–</span> tıklama)</span></h2>
+      <ul class="liste" id="tikListe"></ul>
+    </div>
+  </div>
+
+  <div class="kart bolum">
+    <h2>Son 7 gün</h2>
+    <div class="grafik" id="grafik"></div>
+    <div class="leg"><span><i class="nokta" style="background:var(--kirmizi)"></i>Okutma</span><span><i class="nokta" style="background:var(--yesil)"></i>Tıklayan kişi</span></div>
+  </div>
+
+  <div class="iki">
+    <div class="kart">
+      <h2>Açılan tasarım</h2>
+      <ul class="liste" id="modListe"></ul>
+    </div>
+    <div class="kart">
+      <h2>Çerez tercihi</h2>
+      <ul class="liste" id="cerezListe"></ul>
+    </div>
+  </div>
+
+  <p class="not">
+    * Tekil kişi, sadece çerezleri kabul eden kişileri sayar (yasal gereklilik). Gerçek kişi sayısı biraz daha fazladır.<br>
+    "Bu cihazı sayma"ya basarsan kendi telefonundan yaptığın denemeler istatistiğe karışmaz.
+  </p>
+</main>
+
+<script>
+/* Şifreyi değiştirmek için: yeni şifrenin SHA-256 özetini buraya yaz
+   (Claude'a "panel şifresini X yap" demen yeterli). */
+const SIFRE_OZET = "d9a1c5d2f84ca8101a2cfc8a4cbdbff99d29aa86a3b73352351749da0babc9a6";
+const NS = "kmg-camlitepe-q7x2"; // takip.js ile aynı olmalı
+const API = "https://abacus.jasoncameron.dev/get/" + NS + "/";
+
+const $ = s => document.querySelector(s);
+function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
+function ss(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+
+async function ozet(t) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+
+$("#giris").addEventListener("submit", async e => {
+  e.preventDefault();
+  const h = await ozet($("#sifre").value);
+  if (h === SIFRE_OZET) { ss("kmgPanel", h); ac(); }
+  else { $("#yanlis").textContent = "Şifre yanlış"; $("#sifre").select(); }
+});
+
+function ac() {
+  $("#giris").hidden = true;
+  $("#panel").hidden = false;
+  saymaYaz();
+  yukle();
+}
+
+function saymaYaz() {
+  const k = ls("kmgSayma") === "1";
+  $("#saymaBtn").textContent = k ? "✓ Bu cihaz sayılmıyor" : "Bu cihazı sayma";
+}
+$("#saymaBtn").addEventListener("click", () => { ls("kmgSayma", ls("kmgSayma") === "1" ? null : "1"); saymaYaz(); });
+$("#yenile").addEventListener("click", yukle);
+
+let hataVar = false;
+const bekle = ms => new Promise(r => setTimeout(r, ms));
+async function al(k) {
+  for (let deneme = 0; deneme < 4; deneme++) {
+    try {
+      const r = await fetch(API + k, { cache: "no-store" });
+      if (r.status === 404) return 0;
+      if (r.status === 429) { await bekle(800 * (deneme + 1)); continue; } // servis yavaşla dedi
+      const j = await r.json();
+      return typeof j.value === "number" ? j.value : 0;
+    } catch (e) { await bekle(500); }
+  }
+  hataVar = true; return 0;
+}
+// Servisi boğmamak için aynı anda en fazla 4 istek
+async function hepsiniAl(liste) {
+  const sonuc = new Array(liste.length); let i = 0;
+  async function isci() { while (i < liste.length) { const n = i++; sonuc[n] = await al(liste[n]); } }
+  await Promise.all([isci(), isci(), isci(), isci()]);
+  return sonuc;
+}
+
+function gun(n) {
+  const d = new Date(); d.setDate(d.getDate() - n);
+  return { k: d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"),
+           ad: n === 0 ? "Bugün" : d.toLocaleDateString("tr-TR", { weekday: "short" }) };
+}
+const f = n => n.toLocaleString("tr-TR");
+const yuzde = (n, t) => t ? Math.round(n * 100 / t) + "%" : "–";
+
+function liste(el, satirlar) {
+  const t = satirlar.reduce((a, s) => a + s.n, 0);
+  el.innerHTML = satirlar.map(s =>
+    `<li><i class="nokta" style="background:${s.renk}"></i>${s.ad}<span class="n">${f(s.n)}</span><span class="y">${yuzde(s.n, t)}</span></li>`).join("");
+  return t;
+}
+
+async function yukle() {
+  hataVar = false;
+  $("#guncel").textContent = "Yükleniyor…";
+  const gunler = [6, 5, 4, 3, 2, 1, 0].map(gun);
+  const anahtarlar = ["okutma", "tekil", "tiklayan", "tiklama",
+    "cins-erkek", "cins-kiz", "cins-bos",
+    "tik-google", "tik-yemeksepeti", "tik-trendyol", "tik-migros", "tik-whatsapp",
+    "mod-troll", "mod-hediye", "cerez-kabul", "cerez-red",
+    ...gunler.map(g => "gun-" + g.k), ...gunler.map(g => "tgun-" + g.k)];
+  const v = {};
+  const sonuc = await hepsiniAl(anahtarlar);
+  anahtarlar.forEach((k, i) => v[k] = sonuc[i]);
+
+  $("#vOkutma").textContent = f(v.okutma);
+  $("#vBugun").textContent = f(v["gun-" + gunler[6].k]);
+  $("#vTekil").textContent = f(v.tekil);
+  $("#vTiklayan").textContent = f(v.tiklayan);
+  $("#vTiklama").textContent = f(v.tiklama);
+
+  const cins = [
+    { ad: "👨 Erkek", n: v["cins-erkek"], renk: "var(--mavi)" },
+    { ad: "👩 Kız", n: v["cins-kiz"], renk: "var(--pembe)" },
+    { ad: "Belirtmedi", n: v["cins-bos"], renk: "var(--gri)" }
+  ];
+  const ct = liste($("#cinsListe"), cins);
+  $("#cinsSerit").innerHTML = ct ? cins.map(c => `<i style="width:${c.n * 100 / ct}%;background:${c.renk}"></i>`).join("") : "";
+
+  liste($("#tikListe"), [
+    { ad: "Google yorum", n: v["tik-google"], renk: "#4285f4" },
+    { ad: "Yemeksepeti", n: v["tik-yemeksepeti"], renk: "#fa0050" },
+    { ad: "Trendyol Go", n: v["tik-trendyol"], renk: "#f27a1a" },
+    { ad: "Migros Yemek", n: v["tik-migros"], renk: "#e85d04" },
+    { ad: "WhatsApp (şikayet)", n: v["tik-whatsapp"], renk: "#25d366" }
+  ].sort((a, b) => b.n - a.n));
+
+  liste($("#modListe"), [
+    { ad: "😜 Troll (kaçan buton)", n: v["mod-troll"], renk: "var(--kirmizi)" },
+    { ad: "🎁 Hediye", n: v["mod-hediye"], renk: "#a855f7" }
+  ]);
+  liste($("#cerezListe"), [
+    { ad: "Kabul etti", n: v["cerez-kabul"], renk: "var(--yesil)" },
+    { ad: "Reddetti", n: v["cerez-red"], renk: "var(--gri)" }
+  ]);
+
+  const max = Math.max(1, ...gunler.map(g => v["gun-" + g.k]));
+  $("#grafik").innerHTML = gunler.map(g => {
+    const o = v["gun-" + g.k], t = v["tgun-" + g.k];
+    return `<div class="cubuk"><b>${o}</b><div class="cubuklar"><i style="height:${o * 100 / max}%"></i><i class="t" style="height:${t * 100 / max}%"></i></div><span>${g.ad}</span></div>`;
+  }).join("");
+
+  $("#hata").hidden = !hataVar;
+  $("#hata").textContent = "Sayaç servisine ulaşılamadı, bazı sayılar 0 görünebilir. Biraz sonra Yenile'ye bas.";
+  $("#guncel").textContent = "Son güncelleme: " + new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+}
+
+// Bu sekmede daha önce giriş yapıldıysa şifre tekrar sorulmaz
+if (ss("kmgPanel") === SIFRE_OZET) ac();
+</script>
+</body>
+</html>

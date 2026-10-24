@@ -73,18 +73,34 @@ h1{font-size:44px} h2{font-size:34px}
 .cicek-baş{transform-box:view-box;transform-origin:150px 168px;animation:salin 4s 3.2s ease-in-out infinite}
 @keyframes salin{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 
-/* Kutu + madalya animasyonu */
+/* Kutu + kupa animasyonu (erkek) */
 .kutu{transform-box:view-box;transform-origin:150px 330px;animation:sars .5s .3s 3 ease-in-out}
 @keyframes sars{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.kutu-git{animation:kutuGit .7s 2.6s ease-in forwards}
+@keyframes kutuGit{to{transform:translateY(60px);opacity:0}}
 .kapak{transform-box:view-box;transform-origin:150px 210px;animation:kapakUc 1s 1.9s cubic-bezier(.3,.1,.3,1) forwards}
 @keyframes kapakUc{to{transform:translate(110px,-170px) rotate(38deg);opacity:0}}
-.isinlar{transform-box:view-box;transform-origin:150px 170px;opacity:0;animation:isinGel .8s 2.2s forwards, don 18s 2.2s linear infinite}
+.isinlar{transform-box:view-box;transform-origin:150px 135px;opacity:0;animation:isinGel .8s 2.2s forwards, don 18s 2.2s linear infinite}
 @keyframes isinGel{to{opacity:1}}
 @keyframes don{to{transform:rotate(360deg)}}
-.madalya{transform:translateY(150px);animation:yuksel 1.3s 2.3s cubic-bezier(.2,1.2,.3,1) forwards}
+.kupa-hale{opacity:0;animation:isinGel 1s 2.6s forwards, hale 3s 3.6s ease-in-out infinite}
+.kupa{transform:translateY(170px);animation:yuksel 1.4s 2.3s cubic-bezier(.2,1.2,.3,1) forwards}
 @keyframes yuksel{to{transform:translateY(0)}}
-.madalya-par{transform-box:fill-box;transform-origin:center;animation:parla 2.4s 3.6s ease-in-out infinite}
-@keyframes parla{0%,100%{opacity:0}50%{opacity:.9}}
+.kupa-salin{transform-box:view-box;transform-origin:150px 220px;animation:kupaSalin 5s 4s ease-in-out infinite}
+@keyframes kupaSalin{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg)}}
+.parilti-bant{animation:parilti 3.2s 3.7s ease-in-out infinite;transform:translateX(-140px)}
+@keyframes parilti{0%{transform:translateX(-140px)}45%,100%{transform:translateX(140px)}}
+.defne-dal{stroke-dasharray:200;stroke-dashoffset:200;animation:ciz 1s 3.2s ease-out forwards}
+.defne{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:ac .5s cubic-bezier(.3,1.7,.5,1) forwards;animation-delay:var(--d)}
+.yildizcik{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pirilda 2.2s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes pirilda{0%,100%{transform:scale(0) rotate(0)}50%{transform:scale(1) rotate(45deg)}}
+.serit-yazi{opacity:0;animation:isinGel .6s 4s forwards}
+
+/* Ses aç/kapa */
+.ses-btn{position:fixed;top:14px;right:14px;z-index:6;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--fildisi);
+  font-size:17px;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ses-btn:active{transform:scale(.92)}
 
 /* Zarf ve mektup */
 .zarf-alan{position:relative;width:min(300px,80vw);height:200px;margin:30px auto 0;perspective:900px}
@@ -194,28 +210,50 @@ h1{font-size:44px} h2{font-size:34px}
     </div>
   </section>
 
-  <!-- 2b: Madalya -->
+  <!-- 2b: Kupa (erkek) -->
   <section class="ekran" id="eMadalya">
     <svg class="hediye-svg" viewBox="0 0 300 380" aria-hidden="true">
       <defs>
         <linearGradient id="gAltin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1c2"/><stop offset=".45" stop-color="#f2c66d"/><stop offset="1" stop-color="#b9780f"/></linearGradient>
-        <clipPath id="kesim"><rect x="-50" y="-100" width="400" height="449"/></clipPath>
+        <linearGradient id="gKupa" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a5f08"/><stop offset=".22" stop-color="#e2ad4a"/><stop offset=".42" stop-color="#fff3cf"/><stop offset=".58" stop-color="#f2c66d"/><stop offset="1" stop-color="#8a5206"/></linearGradient>
+        <linearGradient id="gKupaIc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a4b06"/><stop offset="1" stop-color="#c98a1c"/></linearGradient>
+        <linearGradient id="gKaide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2466"/><stop offset="1" stop-color="#1c0f3a"/></linearGradient>
         <linearGradient id="gKutu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f2a7a"/><stop offset="1" stop-color="#241450"/></linearGradient>
+        <radialGradient id="gKupaHale"><stop offset="0" stop-color="rgba(255,214,130,.75)"/><stop offset=".5" stop-color="rgba(242,198,109,.25)"/><stop offset="1" stop-color="rgba(242,198,109,0)"/></radialGradient>
+        <clipPath id="kesim"><rect x="-50" y="-200" width="400" height="430"/></clipPath>
+        <clipPath id="kupaKesim"><path d="M98 58 H202 C202 118 184 150 150 156 C116 150 98 118 98 58Z"/></clipPath>
       </defs>
       <g class="isinlar" id="isinlar"></g>
-      <g clip-path="url(#kesim)"><g class="madalya">
-        <path d="M118 70 L136 140 L150 128 L164 140 L182 70Z" fill="#e8508a"/>
-        <path d="M136 70 L150 124 L164 70Z" fill="#c23a74"/>
-        <circle cx="150" cy="176" r="56" fill="url(#gAltin)" stroke="#fff3c4" stroke-width="3"/>
-        <circle cx="150" cy="176" r="44" fill="none" stroke="#b9780f" stroke-width="2" stroke-dasharray="3 5"/>
-        <text x="150" y="172" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="600" font-size="34" fill="#7a4b06">★</text>
-        <text x="150" y="196" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10.5" letter-spacing="2" fill="#7a4b06">EFSANE</text>
-        <circle class="madalya-par" cx="124" cy="150" r="7" fill="#fff"/>
-      </g></g>
-      <g class="kutu">
-        <rect x="70" y="226" width="160" height="124" rx="8" fill="url(#gKutu)"/>
-        <rect x="140" y="226" width="20" height="124" fill="url(#gAltin)"/>
-        <rect x="70" y="226" width="160" height="10" fill="rgba(0,0,0,.25)"/>
+      <circle class="kupa-hale" cx="150" cy="130" r="120" fill="url(#gKupaHale)"/>
+      <g id="defneler"></g>
+      <g clip-path="url(#kesim)"><g class="kupa"><g class="kupa-salin">
+        <!-- kulplar -->
+        <path d="M104 72 C70 70 66 116 108 124" fill="none" stroke="url(#gKupa)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M196 72 C230 70 234 116 192 124" fill="none" stroke="url(#gKupa)" stroke-width="8" stroke-linecap="round"/>
+        <!-- gövde -->
+        <path d="M98 58 H202 C202 118 184 150 150 156 C116 150 98 118 98 58Z" fill="url(#gKupa)"/>
+        <ellipse cx="150" cy="58" rx="52" ry="9" fill="url(#gKupaIc)"/>
+        <ellipse cx="150" cy="58" rx="52" ry="9" fill="none" stroke="#fff1c2" stroke-width="2"/>
+        <g clip-path="url(#kupaKesim)"><rect class="parilti-bant" x="130" y="40" width="22" height="140" fill="rgba(255,255,255,.55)" transform="skewX(-18)"/></g>
+        <!-- amblem -->
+        <circle cx="150" cy="100" r="19" fill="#b9780f" opacity=".55"/>
+        <circle cx="150" cy="100" r="19" fill="none" stroke="#fff1c2" stroke-width="1.5" opacity=".8"/>
+        <path d="M150 88 L153.5 96.5 L162.5 97 L155.5 102.5 L158 111 L150 106 L142 111 L144.5 102.5 L137.5 97 L146.5 96.5Z" fill="#fff3cf"/>
+        <!-- ayak -->
+        <path d="M143 154 H157 L161 178 H139Z" fill="url(#gKupa)"/>
+        <ellipse cx="150" cy="162" rx="13" ry="4" fill="#fff1c2" opacity=".7"/>
+        <rect x="120" y="178" width="60" height="10" rx="3" fill="url(#gKupa)"/>
+        <rect x="108" y="188" width="84" height="26" rx="5" fill="url(#gKaide)" stroke="url(#gAltin)" stroke-width="1.5"/>
+        <text class="serit-yazi" x="150" y="205.5" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" font-size="10" letter-spacing="3" fill="#f2c66d">BEYEFENDİ</text>
+      </g></g></g>
+      <g id="yildizciklar"></g>
+      <g class="kutu-git">
+        <g class="kutu">
+          <rect x="70" y="226" width="160" height="124" rx="8" fill="url(#gKutu)"/>
+          <rect x="78" y="236" width="10" height="104" rx="5" fill="rgba(255,255,255,.07)"/>
+          <rect x="140" y="226" width="20" height="124" fill="url(#gAltin)"/>
+          <rect x="70" y="226" width="160" height="10" fill="rgba(0,0,0,.25)"/>
+        </g>
       </g>
       <g class="kapak">
         <rect x="60" y="200" width="180" height="32" rx="7" fill="#4b3290"/>
@@ -227,7 +265,7 @@ h1{font-size:44px} h2{font-size:34px}
     </svg>
     <div class="hediye-yazi" id="madalyaYazi">
       <h2><span class="altin" id="unvan">Çamlıtepe'nin Beyefendisi</span><br>sensin</h2>
-      <p class="alt">Bu madalya, bizi tercih eden efsanelere 🏆</p>
+      <p class="alt">Bu kupa, bizi tercih eden efsanelere 🏆</p>
     </div>
   </section>
 
@@ -268,7 +306,7 @@ const AYAR = {
   whatsapp: "905XXXXXXXXX",
   platformlar: [
     { ad: "Yemeksepeti", renk: "#fa0050", url: "https://www.yemeksepeti.com/" },
-    { ad: "Trendyol Go · Uber", renk: "#f27a1a", url: "https://www.trendyol.com/" },
+    { ad: "Trendyol Go · Uber", renk: "#f27a1a", url: "https://tgoyemek.com/" },
     { ad: "Migros Yemek", renk: "#e85d04", url: "https://www.migros.com.tr/" }
   ]
 };
@@ -306,6 +344,7 @@ function kare() {
     c.save(); c.translate(p.x, p.y); c.rotate(p.d); c.scale(1, Math.abs(Math.cos(p.f * 1.5)) * .6 + .4);
     c.fillStyle = p.renk; c.globalAlpha = .9; c.beginPath(); c.ellipse(0, 0, p.r, p.r * .6, 0, 0, 6.283); c.fill(); c.restore();
   }
+  if (typeof kivilcimCiz === "function") kivilcimCiz();
   requestAnimationFrame(kare);
 }
 addEventListener("resize", boyut); boyut(); if (!azHareket) kare();
@@ -331,15 +370,141 @@ function yaprakYagdir(n, renkler) {
   const gobek = document.createElementNS(ns, "circle");
   Object.entries({ cx: 150, cy: 168, r: 17, fill: "url(#gGobek)", class: "gobek" }).forEach(([k, v]) => gobek.setAttribute(k, v));
   bas.appendChild(gobek);
-  // ışınlar (madalya için)
+  // ışınlar (kupa için)
   const isin = $("#isinlar");
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 16; i++) {
     const p = document.createElementNS(ns, "path");
-    p.setAttribute("d", "M150 170 L142 -40 L158 -40Z");
-    p.setAttribute("fill", "rgba(242,198,109,.16)");
-    p.setAttribute("transform", `rotate(${i * 360 / 14} 150 170)`);
+    p.setAttribute("d", "M150 135 L141 -80 L159 -80Z");
+    p.setAttribute("fill", i % 2 ? "rgba(242,198,109,.10)" : "rgba(242,198,109,.18)");
+    p.setAttribute("transform", `rotate(${i * 360 / 16} 150 135)`);
     isin.appendChild(p);
   }
+  // defne dalları: kupanın iki yanında, alttan yukarı açılır
+  const defne = $("#defneler"), M = 150, MY = 132, R = 96;
+  const nokta = (s, t) => [M + s * R * Math.sin(t), MY + R * Math.cos(t)];
+  [-1, 1].forEach(s => {
+    const a0 = 25 * Math.PI / 180, a1 = 150 * Math.PI / 180;
+    const [x0, y0] = nokta(s, a0), [x1, y1] = nokta(s, a1);
+    const dal = document.createElementNS(ns, "path");
+    Object.entries({ d: `M${x0} ${y0} A${R} ${R} 0 0 ${s > 0 ? 0 : 1} ${x1} ${y1}`, fill: "none", stroke: "#c98a1c", "stroke-width": 2.5, "stroke-linecap": "round", class: "defne-dal" })
+      .forEach(([k, v]) => dal.setAttribute(k, v));
+    defne.appendChild(dal);
+    const adet = 9;
+    for (let i = 0; i < adet; i++) {
+      const t = a0 + (a1 - a0) * (i + .5) / adet;
+      const [x, y] = nokta(s, t);
+      const aci = Math.atan2(-R * Math.sin(t), s * R * Math.cos(t)) * 180 / Math.PI;
+      [-1, 1].forEach((yan, j) => {
+        // dış <g> yeri ve açıyı tutar, iç yaprak sadece büyür (CSS transform açıyı ezmesin)
+        const g = document.createElementNS(ns, "g");
+        const kay = 6 * yan;
+        const nx = x + kay * Math.sin(t) * s, ny = y + kay * Math.cos(t);
+        g.setAttribute("transform", `translate(${nx} ${ny}) rotate(${aci + 90 + yan * 38 * s})`);
+        const p = document.createElementNS(ns, "path");
+        Object.entries({ d: "M0 0 C5 -5 5 -14 0 -20 C-5 -14 -5 -5 0 0Z", fill: j ? "url(#gAltin)" : "#d9a640", class: "defne" })
+          .forEach(([k, v]) => p.setAttribute(k, v));
+        p.style.setProperty("--d", `${3.3 + i * .08 + j * .04}s`);
+        p.style.transformOrigin = "50% 100%";
+        g.appendChild(p); defne.appendChild(g);
+      });
+    }
+  });
+  // pırıltılar
+  const yk = $("#yildizciklar");
+  [[58, 52, 1], [246, 70, .8], [238, 190, .7], [62, 178, .9], [150, 14, .75], [270, 132, .55], [30, 120, .6]].forEach(([x, y, o], i) => {
+    const p = document.createElementNS(ns, "path");
+    p.setAttribute("d", `M${x} ${y - 11 * o} L${x + 2.6 * o} ${y - 2.6 * o} L${x + 11 * o} ${y} L${x + 2.6 * o} ${y + 2.6 * o} L${x} ${y + 11 * o} L${x - 2.6 * o} ${y + 2.6 * o} L${x - 11 * o} ${y} L${x - 2.6 * o} ${y - 2.6 * o}Z`);
+    p.setAttribute("fill", "#fff3cf"); p.setAttribute("class", "yildizcik");
+    p.style.setProperty("--d", `${3.8 + i * .31}s`);
+    yk.appendChild(p);
+  });
+})();
+
+/* ---------- Altın kıvılcım patlaması ---------- */
+var kivilcimlar = [];
+function patlat(svgSecici, svgX, svgY, n, renkler) {
+  const r = document.querySelector(svgSecici)?.getBoundingClientRect();
+  if (!r || !r.width || azHareket) return;
+  const x = r.left + r.width * svgX / 300, y = r.top + r.height * svgY / 380;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, h = 2 + Math.random() * 6;
+    kivilcimlar.push({ x, y, vx: Math.cos(a) * h, vy: Math.sin(a) * h - 3, o: 1, r: 1.5 + Math.random() * 2.5, renk: renkler[i % renkler.length] });
+  }
+}
+function kivilcimCiz() {
+  if (!kivilcimlar) return;
+  kivilcimlar = kivilcimlar.filter(k => k.o > 0);
+  for (const k of kivilcimlar) {
+    k.vy += .14; k.vx *= .985; k.x += k.vx; k.y += k.vy; k.o -= .012;
+    c.globalAlpha = Math.max(k.o, 0); c.fillStyle = k.renk;
+    c.beginPath(); c.arc(k.x, k.y, k.r, 0, 6.283); c.fill();
+  }
+  c.globalAlpha = 1;
+}
+
+/* ---------- Ses efektleri (dosya yok, tarayıcıda üretiliyor) ---------- */
+const Ses = (() => {
+  let ctx = null, ana = null, gurBuf = null;
+  let kapali = false; try { kapali = localStorage.getItem("kmgSes") === "0"; } catch (e) {}
+  const N = n => 440 * Math.pow(2, (n - 69) / 12);
+  function hazir() {
+    if (kapali) return null;
+    try {
+      if (!ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+        ctx = new AC();
+        const sik = ctx.createDynamicsCompressor(); sik.connect(ctx.destination);
+        ana = ctx.createGain(); ana.gain.value = .55; ana.connect(sik);
+        gurBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+        const d = gurBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      if (ctx.state === "suspended") ctx.resume();
+      return ctx;
+    } catch (e) { return null; }
+  }
+  function ton(f, t0, sure, { tip = "sine", ses = .3, atak = .005, kayma = null } = {}) {
+    const c = hazir(); if (!c) return;
+    const t = c.currentTime + t0, o = c.createOscillator(), g = c.createGain();
+    o.type = tip; o.frequency.setValueAtTime(f, t);
+    if (kayma) o.frequency.exponentialRampToValueAtTime(kayma, t + sure);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ses, t + atak); g.gain.exponentialRampToValueAtTime(.0001, t + sure);
+    o.connect(g); g.connect(ana); o.start(t); o.stop(t + sure + .05);
+  }
+  function zil(f, t0 = 0, ses = .2, sure = 1.2) { ton(f, t0, sure, { ses }); ton(f * 2.76, t0, sure * .45, { ses: ses * .22 }); ton(f * 5.4, t0, sure * .2, { ses: ses * .08 }); }
+  function gurultu(t0, sure, { ses = .2, f1 = 800, f2 = 3000, q = 1, atak = .3 } = {}) {
+    const c = hazir(); if (!c) return;
+    const t = c.currentTime + t0, s = c.createBufferSource(), fl = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = gurBuf; fl.type = "bandpass"; fl.Q.value = q;
+    fl.frequency.setValueAtTime(f1, t); fl.frequency.exponentialRampToValueAtTime(f2, t + sure);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(ses, t + sure * atak); g.gain.exponentialRampToValueAtTime(.0001, t + sure);
+    s.connect(fl); fl.connect(g); g.connect(ana); s.start(t, Math.random()); s.stop(t + sure + .05);
+  }
+  return {
+    get kapali() { return kapali; },
+    ayarla(k) { kapali = k; try { localStorage.setItem("kmgSes", k ? "0" : "1"); } catch (e) {} if (k && ctx) ctx.suspend(); if (!k) hazir(); },
+    hazir,
+    secim() { zil(N(79), 0, .18, .9); zil(N(86), .09, .16, 1.1); },
+    sars(t0) { gurultu(t0, .14, { ses: .35, f1: 260, f2: 180, q: .7, atak: .15 }); ton(98, t0, .14, { tip: "triangle", ses: .18 }); },
+    pop(t0 = 0) { ton(520, t0, .16, { ses: .4, kayma: 110 }); gurultu(t0, .3, { ses: .18, f1: 1800, f2: 7000, atak: .05 }); },
+    parilti(t0 = 0, kok = 88) { [0, 4, 7, 12, 16, 19].forEach((n, i) => zil(N(kok + n), t0 + i * .065, .07, .7)); },
+    yuksel(t0 = 0) { ton(N(55), t0, 1.4, { tip: "triangle", ses: .1, atak: .5, kayma: N(67) }); gurultu(t0, 1.3, { ses: .07, f1: 2500, f2: 9000, q: 4, atak: .6 }); },
+    fanfar(t0 = 0) {
+      [[67, 0, .14], [72, .15, .14], [76, .3, .14]].forEach(([n, d, s]) => { ton(N(n), t0 + d, s + .1, { tip: "triangle", ses: .16 }); ton(N(n + 12), t0 + d, s, { ses: .05 }); });
+      [60, 64, 67, 72, 76].forEach(n => { ton(N(n), t0 + .45, 1.8, { tip: "triangle", ses: .09, atak: .03 }); ton(N(n) * 1.005, t0 + .45, 1.8, { ses: .05, atak: .03 }); });
+      zil(N(96), t0 + .45, .06, 1.6);
+    },
+    arp(t0 = 0, adet = 8) { const g = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21]; for (let i = 0; i < adet; i++) zil(N(72 + g[i % g.length]), t0 + i * .11, .09, .9); },
+    hus(t0 = 0) { gurultu(t0, .7, { ses: .12, f1: 400, f2: 2600, q: .6, atak: .5 }); },
+    kalem() { gurultu(0, .035, { ses: .035, f1: 3800, f2: 3000, q: 2, atak: .2 }); },
+    tamam() { zil(N(84), 0, .14, .8); zil(N(91), .1, .12, 1); }
+  };
+})();
+(() => {
+  const b = document.createElement("button");
+  b.className = "ses-btn"; b.type = "button";
+  const yaz = () => { b.textContent = Ses.kapali ? "🔇" : "🔊"; b.setAttribute("aria-label", Ses.kapali ? "Sesi aç" : "Sesi kapat"); };
+  b.addEventListener("click", () => { Ses.ayarla(!Ses.kapali); yaz(); });
+  yaz(); document.body.appendChild(b);
 })();
 
 /* ---------- Akış ---------- */
@@ -352,14 +517,28 @@ document.querySelectorAll(".secim").forEach(b => b.addEventListener("click", () 
 $("#surpriz").addEventListener("click", () => hediyeAc(null));
 
 let akisNo = 0;
+// Akış atlanırsa (Geç'e basılırsa) kalan sesler çalmasın
+function sonra(ms, no, fn) { setTimeout(() => { if (no === akisNo) fn(); }, ms); }
+
 async function hediyeAc(c) {
   kisi = c;
   const no = ++akisNo;
   if (navigator.vibrate) navigator.vibrate(12);
+  Ses.hazir(); Ses.secim();
   const cicek = c === "kadin" || (c === null && Math.random() < .5);
   ekran(cicek ? "#eCicek" : "#eMadalya");
   atlaGoster(() => { akisNo++; mektupAc(); });
-  await bekle(cicek ? 3300 : 3400);
+  if (cicek) {
+    sonra(250, no, () => Ses.hus());
+    sonra(1600, no, () => Ses.arp(0, 10));
+    sonra(2900, no, () => { Ses.parilti(0, 84); patlat("#eCicek .hediye-svg", 150, 168, 40, ["#ffd6e6", "#ff9ec4", "#fff3c4", "#f06aa0"]); });
+  } else {
+    [400, 650, 900, 1150, 1400, 1650].forEach(ms => sonra(ms, no, () => Ses.sars(0)));
+    sonra(1900, no, () => { Ses.pop(); Ses.parilti(.05); patlat("#eMadalya .hediye-svg", 150, 200, 70, ["#f2c66d", "#ffe2a0", "#fff3cf", "#d99a2b"]); });
+    sonra(2300, no, () => Ses.yuksel());
+    sonra(3550, no, () => { Ses.fanfar(); patlat("#eMadalya .hediye-svg", 150, 90, 50, ["#f2c66d", "#fff3cf", "#ffe2a0"]); });
+  }
+  await bekle(cicek ? 3300 : 3800);
   if (no !== akisNo) return;
   $(cicek ? "#cicekYazi" : "#madalyaYazi").classList.add("goster");
   yaprakYagdir(cicek ? 40 : 30, cicek ? ["#ffb3d1", "#ff8fbd", "#ffd6e6", "#f06aa0"] : ["#f2c66d", "#ffe2a0", "#d99a2b", "#fff3c4"]);
@@ -380,6 +559,7 @@ async function mektupAc() {
   ekran("#eMektup");
   await bekle(500);
   $("#zarf").classList.add("acik");
+  Ses.pop(); Ses.hus(.15);
   if (navigator.vibrate) navigator.vibrate(10);
   await bekle(1900);
   $("#zarf").classList.add("kalk");
@@ -393,6 +573,7 @@ async function mektupAc() {
   await bekle(900);
   await yaz($("#yazi"), mektuplar[kisi] || mektuplar.ortak);
   $("#imza").classList.add("goster");
+  Ses.parilti(0, 84);
   await bekle(1100);
   yorumHazirla();
   $("#yorumBolum").classList.add("goster");
@@ -404,8 +585,10 @@ async function yaz(el, metin) {
   let atla = false;
   const hizlandir = () => atla = true;
   el.closest(".mektup").addEventListener("click", hizlandir, { once: true });
+  let i = 0;
   for (const harf of [...metin]) {
     imlec.before(harf);
+    if (!atla && harf.trim() && i++ % 2 === 0) Ses.kalem();
     if (!atla && !azHareket) await new Promise(r => setTimeout(r, /[.,\n]/.test(harf) ? 180 : 27));
   }
   imlec.remove();
@@ -435,6 +618,7 @@ function yorumHazirla() {
     a.innerHTML = p.ana ? `★ ${p.ad}` : `<span class="nokta" style="background:${p.renk}"></span>${p.ad}`;
     a.addEventListener("click", () => {
       kopyala();
+      Ses.tamam();
       bildir(p.ana ? "Yorumun kopyalandı ✨ Yıldızları seç, yapıştır." : `Kopyalandı ✨ ${p.ad.split(" ·")[0]} → Siparişlerim → Değerlendir`);
       yaprakYagdir(24, ["#f2c66d", "#ffe2a0", "#ff9ec4"]);
     });
@@ -458,5 +642,6 @@ function bildir(m) { const b = $("#bildirim"); b.textContent = m; b.classList.ad
 const q = new URLSearchParams(location.search).get("c");
 if (q === "kadin" || q === "erkek") hediyeAc(q);
 </script>
+<script src="takip.js" defer></script>
 </body>
 </html>
